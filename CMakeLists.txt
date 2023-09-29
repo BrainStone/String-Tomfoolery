@@ -3,4 +3,4 @@ project(String_Tomfoolery)
 
 set(CMAKE_CXX_STANDARD 23)
 
-add_library(String_Tomfoolery library.cpp)
+add_library(String_Tomfoolery stomfoolery.cpp)
