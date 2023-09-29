@@ -8,5 +8,10 @@ set(CMAKE_VERBOSE_MAKEFILE ON CACHE BOOL "ON" FORCE)
 add_library(stomfoolery INTERFACE)
 target_include_directories(stomfoolery INTERFACE ./src)
 
-add_library(String_Tomfoolery INTERFACE)
-target_include_directories(String_Tomfoolery INTERFACE .)
+###############################################################################
+## testing ####################################################################
+###############################################################################
+
+enable_testing()
+include(GoogleTest)
+add_subdirectory(test)
