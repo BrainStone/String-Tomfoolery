@@ -41,147 +41,147 @@ const std::vector<std::string> empty_container{};
 const std::vector<std::string> one_element_container{{"aaaaa"s}};
 
 // Normal cases
-TEST(TestSplit, SimpleStringEven) {
+TEST(TestSplitByInt, SimpleStringEven) {
 	EXPECT_EQ(stomfoolery::split(simple_str_even, divisions), simple_str_split_even);
 }
 
-TEST(TestSplit, SimpleStringUneven) {
+TEST(TestSplitByInt, SimpleStringUneven) {
 	EXPECT_EQ(stomfoolery::split(simple_str_uneven, divisions), simple_str_split_uneven);
 }
 
-TEST(TestSplit, SimpleStringEvenOperator) {
+TEST(TestSplitByInt, SimpleStringEvenOperator) {
 	EXPECT_EQ(simple_str_even / divisions, simple_str_split_even);
 }
 
-TEST(TestSplit, SimpleStringUnevenOperator) {
+TEST(TestSplitByInt, SimpleStringUnevenOperator) {
 	EXPECT_EQ(simple_str_uneven / divisions, simple_str_split_uneven);
 }
 
-TEST(TestSplit, ComplexStringEven) {
+TEST(TestSplitByInt, ComplexStringEven) {
 	EXPECT_EQ(stomfoolery::split(complex_str_even, divisions), complex_str_split_even);
 }
 
-TEST(TestSplit, ComplexStringUneven) {
+TEST(TestSplitByInt, ComplexStringUneven) {
 	EXPECT_EQ(stomfoolery::split(complex_str_uneven, divisions), complex_str_split_uneven);
 }
 
-TEST(TestSplit, ComplexStringEvenOperator) {
+TEST(TestSplitByInt, ComplexStringEvenOperator) {
 	EXPECT_EQ(complex_str_even / divisions, complex_str_split_even);
 }
 
-TEST(TestSplit, ComplexStringUnevenOperator) {
+TEST(TestSplitByInt, ComplexStringUnevenOperator) {
 	EXPECT_EQ(complex_str_uneven / divisions, complex_str_split_uneven);
 }
 
-TEST(TestSplit, SimpleWstringEven) {
+TEST(TestSplitByInt, SimpleWstringEven) {
 	EXPECT_EQ(stomfoolery::split(simple_wstr_even, divisions), simple_wstr_split_even);
 }
 
-TEST(TestSplit, SimpleWstringUneven) {
+TEST(TestSplitByInt, SimpleWstringUneven) {
 	EXPECT_EQ(stomfoolery::split(simple_wstr_uneven, divisions), simple_wstr_split_uneven);
 }
 
-TEST(TestSplit, SimpleWstringEvenOperator) {
+TEST(TestSplitByInt, SimpleWstringEvenOperator) {
 	EXPECT_EQ(simple_wstr_even / divisions, simple_wstr_split_even);
 }
 
-TEST(TestSplit, SimpleWstringUnevenOperator) {
+TEST(TestSplitByInt, SimpleWstringUnevenOperator) {
 	EXPECT_EQ(simple_wstr_uneven / divisions, simple_wstr_split_uneven);
 }
 
-TEST(TestSplit, ComplexWstringEven) {
+TEST(TestSplitByInt, ComplexWstringEven) {
 	EXPECT_EQ(stomfoolery::split(complex_wstr_even, divisions), complex_wstr_split_even);
 }
 
-TEST(TestSplit, ComplexWstringUneven) {
+TEST(TestSplitByInt, ComplexWstringUneven) {
 	EXPECT_EQ(stomfoolery::split(complex_wstr_uneven, divisions), complex_wstr_split_uneven);
 }
 
-TEST(TestSplit, ComplexWstringEvenOperator) {
+TEST(TestSplitByInt, ComplexWstringEvenOperator) {
 	EXPECT_EQ(complex_wstr_even / divisions, complex_wstr_split_even);
 }
 
-TEST(TestSplit, ComplexWstringUnevenOperator) {
+TEST(TestSplitByInt, ComplexWstringUnevenOperator) {
 	EXPECT_EQ(complex_wstr_uneven / divisions, complex_wstr_split_uneven);
 }
 
-TEST(TestSplit, SimpleStringViewEven) {
+TEST(TestSplitByInt, SimpleStringViewEven) {
 	EXPECT_EQ(stomfoolery::split(simple_str_view_even, divisions), simple_str_split_even);
 }
 
-TEST(TestSplit, SimpleStringViewUneven) {
+TEST(TestSplitByInt, SimpleStringViewUneven) {
 	EXPECT_EQ(stomfoolery::split(simple_str_view_uneven, divisions), simple_str_split_uneven);
 }
 
-TEST(TestSplit, SimpleStringViewEvenOperator) {
+TEST(TestSplitByInt, SimpleStringViewEvenOperator) {
 	EXPECT_EQ(simple_str_view_even / divisions, simple_str_split_even);
 }
 
-TEST(TestSplit, SimpleStringViewUnevenOperator) {
+TEST(TestSplitByInt, SimpleStringViewUnevenOperator) {
 	EXPECT_EQ(simple_str_view_uneven / divisions, simple_str_split_uneven);
 }
 
-TEST(TestSplit, ComplexStringViewEven) {
+TEST(TestSplitByInt, ComplexStringViewEven) {
 	EXPECT_EQ(stomfoolery::split(complex_str_view_even, divisions), complex_str_split_even);
 }
 
-TEST(TestSplit, ComplexStringViewUneven) {
+TEST(TestSplitByInt, ComplexStringViewUneven) {
 	EXPECT_EQ(stomfoolery::split(complex_str_view_uneven, divisions), complex_str_split_uneven);
 }
 
-TEST(TestSplit, ComplexStringViewEvenOperator) {
+TEST(TestSplitByInt, ComplexStringViewEvenOperator) {
 	EXPECT_EQ(complex_str_view_even / divisions, complex_str_split_even);
 }
 
-TEST(TestSplit, ComplexStringViewUnevenOperator) {
+TEST(TestSplitByInt, ComplexStringViewUnevenOperator) {
 	EXPECT_EQ(complex_str_view_uneven / divisions, complex_str_split_uneven);
 }
 
-TEST(TestSplit, SimpleWstringViewEven) {
+TEST(TestSplitByInt, SimpleWstringViewEven) {
 	EXPECT_EQ(stomfoolery::split(simple_wstr_view_even, divisions), simple_wstr_split_even);
 }
 
-TEST(TestSplit, SimpleWstringViewUneven) {
+TEST(TestSplitByInt, SimpleWstringViewUneven) {
 	EXPECT_EQ(stomfoolery::split(simple_wstr_view_uneven, divisions), simple_wstr_split_uneven);
 }
 
-TEST(TestSplit, SimpleWstringViewEvenOperator) {
+TEST(TestSplitByInt, SimpleWstringViewEvenOperator) {
 	EXPECT_EQ(simple_wstr_view_even / divisions, simple_wstr_split_even);
 }
 
-TEST(TestSplit, SimpleWstringViewUnevenOperator) {
+TEST(TestSplitByInt, SimpleWstringViewUnevenOperator) {
 	EXPECT_EQ(simple_wstr_view_uneven / divisions, simple_wstr_split_uneven);
 }
 
-TEST(TestSplit, ComplexWstringViewEven) {
+TEST(TestSplitByInt, ComplexWstringViewEven) {
 	EXPECT_EQ(stomfoolery::split(complex_wstr_view_even, divisions), complex_wstr_split_even);
 }
 
-TEST(TestSplit, ComplexWstringViewUneven) {
+TEST(TestSplitByInt, ComplexWstringViewUneven) {
 	EXPECT_EQ(stomfoolery::split(complex_wstr_view_uneven, divisions), complex_wstr_split_uneven);
 }
 
-TEST(TestSplit, ComplexWstringViewEvenOperator) {
+TEST(TestSplitByInt, ComplexWstringViewEvenOperator) {
 	EXPECT_EQ(complex_wstr_view_even / divisions, complex_wstr_split_even);
 }
 
-TEST(TestSplit, ComplexWstringViewUnevenOperator) {
+TEST(TestSplitByInt, ComplexWstringViewUnevenOperator) {
 	EXPECT_EQ(complex_wstr_view_uneven / divisions, complex_wstr_split_uneven);
 }
 
 // Edge cases
-TEST(TestRepeat, ZeroDivisions) {
+TEST(TestSplitByInt, ZeroDivisions) {
 	EXPECT_EQ(stomfoolery::split(simple_str_even, 0), empty_container);
 }
 
-TEST(TestRepeat, ZeroDivisionsOperator) {
+TEST(TestSplitByInt, ZeroDivisionsOperator) {
 	EXPECT_EQ(simple_str_even / 0, empty_container);
 }
 
-TEST(TestRepeat, OneDivision) {
+TEST(TestSplitByInt, OneDivision) {
 	EXPECT_EQ(stomfoolery::split(simple_str_even, 1), one_element_container);
 }
 
-TEST(TestRepeat, OneDivisionOperator) {
+TEST(TestSplitByInt, OneDivisionOperator) {
 	EXPECT_EQ(simple_str_even / 1, one_element_container);
 }

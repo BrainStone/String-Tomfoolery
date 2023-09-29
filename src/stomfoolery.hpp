@@ -44,7 +44,7 @@ inline std::basic_string<T> repeat(std::basic_string_view<T> str, std::size_t re
 	return repeat<T>(str.begin(), str.end(), repeats);
 }
 
-// #### split ####
+// #### split by int ####
 // Actual function
 template <typename T, typename C = std::vector<std::basic_string<T>>, return_type_iterator<T> I>
 C split(I begin, I end, std::size_t divisions);
@@ -93,7 +93,7 @@ inline std::basic_string<T> operator*(std::basic_string_view<T> str, std::size_t
 	return stomfoolery::repeat<T>(str, repeats);
 }
 
-// #### split ####
+// #### split by int ####
 template <typename T>
 inline std::vector<std::basic_string<T>> operator/(const std::basic_string<T>& str, std::size_t repeats) {
 	return stomfoolery::split<T>(str, repeats);
