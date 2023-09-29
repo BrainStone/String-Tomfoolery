@@ -5,18 +5,24 @@
 
 namespace stomfoolery {
 
-template <typename T>
-std::basic_string<T> repeat(const std::basic_string<T>& str, std::size_t repeats) {
+template <typename T, std::bidirectional_iterator I>
+std::basic_string<T> repeat(I begin, I end, std::size_t repeats)
+    requires(I i)
+{
+	{ *i } -> std::same_as<T>
+}
+{
+	const std::size_t size = end - begin;
 	std::basic_string<T> result;
 
-	if (repeats == 0 || str.empty()) {
+	if (repeats == 0 || size == 0) {
 		return result;
 	}
 
-	result.reserve(str.size() * repeats);
+	result.reserve(size * repeats);
 
 	for (std::size_t i = 0; i < repeats; ++i) {
-		result.append(str);
+		result.append(begin, end);
 	}
 
 	return result;
