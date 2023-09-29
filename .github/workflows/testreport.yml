@@ -6,6 +6,12 @@ on:
         types:
             - completed
 
+# Permissions required
+permissions:
+    id-token: write
+    contents: read
+    checks: write
+
 jobs:
     report:
         # Doesn't matter what OS we used to build
@@ -27,5 +33,3 @@ jobs:
                     name: GTest Tests
                     path: '**/*.xml'
                     reporter: java-junit
-                env:
-                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
