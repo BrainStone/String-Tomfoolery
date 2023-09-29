@@ -5,12 +5,12 @@
 
 namespace stomfoolery {
 
-template <typename T, char_iterator<T> I>
+template <typename T, return_type_iterator<T> I>
 std::basic_string<T> repeat(I begin, I end, std::size_t repeats) {
 	const std::size_t size = end - begin;
 	std::basic_string<T> result;
 
-	if (repeats == 0 || size == 0) {
+	if ((repeats == 0) || (size == 0)) {
 		return result;
 	}
 	// No special case for repeats == 1, as we need to copy the string anyway.
@@ -24,7 +24,7 @@ std::basic_string<T> repeat(I begin, I end, std::size_t repeats) {
 	return result;
 }
 
-template <typename T, typename C, char_iterator<T> I>
+template <typename T, typename C, return_type_iterator<T> I>
 C split(I begin, I end, std::size_t divisions) {
 	const std::size_t size = end - begin;
 	C result;
@@ -46,6 +46,37 @@ C split(I begin, I end, std::size_t divisions) {
 		temp_end = temp_begin + length;
 		result.emplace_back(temp_begin, temp_end);
 		temp_begin = temp_end;
+	}
+
+	return result;
+}
+
+template <typename T, nested_return_type_iterator<T> CI, return_type_iterator<T> I>
+std::basic_string<T> join(CI container_begin, CI container_end, I glue_begin, I glue_end) {
+	const std::size_t container_size = container_end - container_begin;
+	std::basic_string<T> result;
+
+	if (container_size == 0) {
+		return result;
+	}
+	// No special case for container_size == 1, as we need to copy the string anyway.
+
+	std::size_t container_sum_size = 0;
+	const std::size_t glue_size = glue_end - glue_begin;
+
+	for (CI it = container_begin; it != container_end; ++it) {
+		container_sum_size += it->end() - it->begin();
+	}
+
+	result.reserve(glue_size * (container_size - 1) + container_sum_size);
+
+	for (CI it = container_begin; it != container_end; ++it) {
+		// Skip first iteration or all iterations if glue is empty
+		if ((glue_size != 0) && (it != container_begin)) {
+			result.append(glue_begin, glue_end);
+		}
+
+		result.append(it->begin(), it->end());
 	}
 
 	return result;
