@@ -3,32 +3,32 @@
 
 #include <iterator>
 #include <string>
+#include <string_view>
 
 namespace stomfoolery {
 
-//// repeat
+// #### repeat ####
+// Actual function
+template <typename T, std::contiguous_iterator I>
+    requires requires(I i) { std::same_as<std::decay_t<decltype(*i)>, std::decay_t<T>>; }
+std::basic_string<T> repeat(I begin, I end, std::size_t repeats);
+
 // Helpers
 template <typename T>
 inline std::basic_string<T> repeat(const std::basic_string<T>& str, std::size_t repeats) {
-	return repeat(str.begin(), str.end(), repeats);
+	return repeat<T>(str.begin(), str.end(), repeats);
 }
 template <typename T>
 inline std::basic_string<T> repeat(std::basic_string_view<T> str, std::size_t repeats) {
-	return repeat(str.begin(), str.end(), repeats);
+	return repeat<T>(str.begin(), str.end(), repeats);
 }
-
-// Actual function
-template <typename T, std::bidirectional_iterator I>
-std::basic_string<T> repeat(I begin, I end, std::size_t repeats)
-    requires(I i)
-{{*i} -> std::same_as<T>};
 
 }  // namespace stomfoolery
 
 // You can disable the operators if you really want to!
 #ifndef STOMFOOLERY_DISABLE_OPERATORS
 
-//// repeat/multiply
+// #### repeat ####
 template <typename T>
 inline std::basic_string<T> operator*(const std::basic_string<T>& str, std::size_t repeats) {
 	return stomfoolery::repeat<T>(str, repeats);

@@ -5,13 +5,9 @@
 
 namespace stomfoolery {
 
-template <typename T, std::bidirectional_iterator I>
-std::basic_string<T> repeat(I begin, I end, std::size_t repeats)
-    requires(I i)
-{
-	{ *i } -> std::same_as<T>
-}
-{
+template <typename T, std::contiguous_iterator I>
+    requires requires(I i) { std::same_as<std::decay_t<decltype(*i)>, std::decay_t<T>>; }
+std::basic_string<T> repeat(I begin, I end, std::size_t repeats) {
 	const std::size_t size = end - begin;
 	std::basic_string<T> result;
 
