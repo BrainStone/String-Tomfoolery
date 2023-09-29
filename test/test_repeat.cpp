@@ -22,6 +22,9 @@ const std::string_view complex_str_view{complex_str};
 const std::wstring_view simple_wstr_view{simple_wstr};
 const std::wstring_view complex_wstr_view{complex_wstr};
 
+const std::string empty_str{""s};
+
+// Normal cases
 TEST(TestRepeat, SimpleString) {
 	EXPECT_EQ(stomfoolery::repeat(simple_str, repeat), simple_str_repeated);
 }
@@ -84,4 +87,29 @@ TEST(TestRepeat, ComplexWstringViewOperator) {
 
 TEST(TestRepeat, ComplexWstringView) {
 	EXPECT_EQ(stomfoolery::repeat(complex_wstr_view, repeat), complex_wstr_repeated);
+}
+
+// Edge cases
+TEST(TestRepeat, ZeroRepeats) {
+	EXPECT_EQ(stomfoolery::repeat(simple_str, 0), empty_str);
+}
+
+TEST(TestRepeat, ZeroRepeatsOperator) {
+	EXPECT_EQ(simple_str * 0, empty_str);
+}
+
+TEST(TestRepeat, OneRepeat) {
+	EXPECT_EQ(stomfoolery::repeat(simple_str, 1), simple_str);
+}
+
+TEST(TestRepeat, OneRepeatOperator) {
+	EXPECT_EQ(simple_str * 1, simple_str);
+}
+
+TEST(TestRepeat, EmtpyString) {
+	EXPECT_EQ(stomfoolery::repeat(empty_str, repeat), empty_str);
+}
+
+TEST(TestRepeat, EmtpyStringOperator) {
+	EXPECT_EQ(empty_str * repeat, empty_str);
 }

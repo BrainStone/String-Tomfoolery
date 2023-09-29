@@ -14,6 +14,7 @@ std::basic_string<T> repeat(I begin, I end, std::size_t repeats) {
 	if (repeats == 0 || size == 0) {
 		return result;
 	}
+	// No special case for repeats == 1, as we need to copy the string anyway.
 
 	result.reserve(size * repeats);
 
