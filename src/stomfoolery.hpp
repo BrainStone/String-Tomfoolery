@@ -154,28 +154,15 @@ C split(I begin, I end, std::size_t divisions);
 
 /**
  * @brief Splits a string into multiple substrings based on a specified number of divisions using simpler string input.
- * @tparam T Char type of the string
+ * @tparam S String like type
  * @tparam C Container type to store the resulting substrings
  * @param str The string to split
  * @param divisions Number of times the string should be divided
  * @return A container of substrings
  */
-template <typename T, typename C = std::vector<std::basic_string<T>>>
-inline C split(const std::basic_string<T>& str, std::size_t divisions) {
-	return split<T, C>(str.begin(), str.end(), divisions);
-}
-
-/**
- * @brief Splits a string into multiple substrings based on a specified number of divisions using a string_view input.
- * @tparam T Char type of the string
- * @tparam C Container type to store the resulting substrings
- * @param str The string_view to split
- * @param divisions Number of times the string should be divided
- * @return A container of substrings
- */
-template <typename T, typename C = std::vector<std::basic_string<T>>>
-inline C split(const std::basic_string_view<T>& str, std::size_t divisions) {
-	return split<T, C>(str.begin(), str.end(), divisions);
+template <string_like S, typename C = std::vector<std::basic_string<string_like_char_t<S>>>>
+inline C split(const S& str, std::size_t divisions) {
+	return split<string_like_char_t<S>, C>(std::ranges::begin(str), std::ranges::end(str), divisions);
 }
 
 // #### join ####
@@ -209,33 +196,20 @@ std::basic_string<T> join(CI container_begin, CI container_end, I glue_begin, I 
  */
 template <typename T, contains_return_type_iterator<T> C, return_type_iterator<T> I>
 inline std::basic_string<T> join(const C& container, I glue_begin, I glue_end) {
-	return join<T>(container.begin(), container.end(), glue_begin, glue_end);
+	return join<T>(std::ranges::begin(container), std::ranges::end(container), glue_begin, glue_end);
 }
 
 /**
  * @brief Joins a range of containers into a single string using a specified delimiter.
- * @tparam T Char type of the string
+ * @tparam S String like type
  * @tparam C Container type to join
  * @param container The container of strings to join
  * @param glue The string to use as a delimiter
  * @return The joined string
  */
-template <typename T, contains_return_type_iterator<T> C>
-inline std::basic_string<T> join(const C& container, const std::basic_string<T>& glue) {
-	return join<T>(container, glue.begin(), glue.end());
-}
-
-/**
- * @brief Joins a range of containers into a single string using a specified delimiter and a string_view input.
- * @tparam T Char type of the string
- * @tparam C Container type to join
- * @param container The container of strings to join
- * @param glue The string_view to use as a delimiter
- * @return The joined string
- */
-template <typename T, contains_return_type_iterator<T> C>
-inline std::basic_string<T> join(const C& container, std::basic_string_view<T> glue) {
-	return join<T>(container, glue.begin(), glue.end());
+template <string_like S, contains_return_type_iterator<string_like_char_t<S>> C>
+inline std::basic_string<string_like_char_t<S>> join(const C& container, const S& glue) {
+	return join<string_like_char_t<S>>(container, std::ranges::begin(glue), std::ranges::end(glue));
 }
 
 }  // namespace stomfoolery
@@ -259,55 +233,30 @@ inline std::basic_string<stomfoolery::string_like_char_t<S>> operator*(const S& 
 // #### split by int ####
 /**
  * @brief Splits a string into multiple substrings based on a specified number of divisions using the "/" operator.
- * @tparam T Char type of the string
+ * @tparam S String like type
+ * @tparam C Container type to store the resulting substrings
  * @param str The string to split
  * @param divisions Number of times the string should be divided
  * @return A container of substrings
  */
-template <typename T>
-inline std::vector<std::basic_string<T>> operator/(const std::basic_string<T>& str, std::size_t divisions) {
-	return stomfoolery::split<T>(str, divisions);
-}
-
-/**
- * @brief Splits a string into multiple substrings based on a specified number of divisions using the "/" operator with
- * a string_view input.
- * @tparam T Char type of the string
- * @param str The string_view to split
- * @param divisions Number of times the string should be divided
- * @return A container of substrings
- */
-template <typename T>
-inline std::vector<std::basic_string<T>> operator/(std::basic_string_view<T> str, std::size_t divisions) {
-	return stomfoolery::split<T>(str, divisions);
+template <stomfoolery::string_like S>
+inline std::vector<std::basic_string<stomfoolery::string_like_char_t<S>>> operator/(const S& str,
+                                                                                    std::size_t divisions) {
+	return stomfoolery::split<S>(str, divisions);
 }
 
 // #### join ####
 /**
  * @brief Joins a range of containers into a single string using a specified delimiter and the "*" operator.
- * @tparam T Char type of the string
+ * @tparam S String like type
  * @tparam C Container type to join
  * @param container The container of strings to join
  * @param glue The string to use as a delimiter
  * @return The joined string
  */
-template <typename T, stomfoolery::contains_return_type_iterator<T> C>
-inline std::basic_string<T> operator*(const C& container, const std::basic_string<T>& glue) {
-	return stomfoolery::join<T>(container, glue);
-}
-
-/**
- * @brief Joins a range of containers into a single string using a specified delimiter and the "*" operator with a
- * string_view input.
- * @tparam T Char type of the string
- * @tparam C Container type to join
- * @param container The container of strings to join
- * @param glue The string_view to use as a delimiter
- * @return The joined string
- */
-template <typename T, stomfoolery::contains_return_type_iterator<T> C>
-inline std::basic_string<T> operator*(const C& container, std::basic_string_view<T> glue) {
-	return stomfoolery::join<T>(container, glue);
+template <stomfoolery::string_like S, stomfoolery::contains_return_type_iterator<stomfoolery::string_like_char_t<S>> C>
+inline std::basic_string<stomfoolery::string_like_char_t<S>> operator*(const C& container, const S& glue) {
+	return stomfoolery::join<S, C>(container, glue);
 }
 
 #endif  // STOMFOOLERY_DISABLE_OPERATORS
