@@ -65,7 +65,7 @@ inline constexpr bool is_string_like_v = is_string_like<S>::value;
  * @tparam S String type
  */
 template <typename S>
-using string_like_char_t = is_string_like<S>::char_type;
+using string_like_char_t = typename is_string_like<S>::char_type;
 
 /**
  * Helper to check if the char types of all strings are the same.
