@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_VERBOSE_MAKEFILE ON CACHE BOOL "ON" FORCE)
 
 add_library(stomfoolery INTERFACE)
-target_include_directories(stomfoolery INTERFACE ./src)
+target_include_directories(stomfoolery INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/src")
 
 ###############################################################################
 ## testing ####################################################################

@@ -20,6 +20,7 @@ using namespace std::string_literals;
 
 std::vector<std::string>{"Hello World!"s, "Hello Bjarne!"s} * " "s; // -> "Hello World! Hello Bjarne!"s
 "Hello World! Hello Bjarne!"s / " "s; // -> std::vector<std::string>{"Hello World!"s, "Hello Bjarne!"s}
+"Hello World! \tHello Bjarne!"s / std::regex{R"(\s+)"}; // -> std::vector<std::string>{"Hello World!"s, "Hello Bjarne!"s}
 ```
 
 This is really just playing around, and honestly you shouldn't be using this in production code. The idea behind is more
@@ -29,8 +30,8 @@ set the preprocessor flag `STOMFOOLERY_DISABLE_OPERATORS`, which does in fact di
 
 ## Using this lib
 
-This is a CMake library and you can use it as you would any other CMake library. See Instructions further down on how to
-use it without CMake too.
+This is a CMake library, and you can use it as you would any other CMake library. See Instructions further down on how
+to use it without CMake too.
 
 ### CMake
 

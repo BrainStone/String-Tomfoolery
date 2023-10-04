@@ -105,8 +105,6 @@ C split(I1 str_begin, I1 str_end, I2 separator_begin, I2 separator_end) {
 
 		return result;
 	}
-	// No special handling for an empty separator, the following code handles that just fine and the performance to be
-	// gained from it is minimal
 
 	I1 temp_str_begin = str_begin, temp_str_end;
 
@@ -122,6 +120,24 @@ C split(I1 str_begin, I1 str_end, I2 separator_begin, I2 separator_end) {
 
 		// Move start of next search past the separator
 		temp_str_begin = temp_str_end + separator_size;
+	}
+
+	result.shrink_to_fit();
+	return result;
+}
+
+template <typename T, typename C, return_type_iterator<T> I>
+C split(I begin, I end, const std::basic_regex<T>& separator) {
+	const std::size_t size = end - begin;
+	C result;
+
+	if (size == 0) {
+		return result;
+	}
+
+	// submatch = -1 means all unmatched parts
+	for (std::regex_token_iterator<I> it{begin, end, separator, -1}, regex_end{}; it != regex_end; ++it) {
+		result.emplace_back(it->first, it->second);
 	}
 
 	result.shrink_to_fit();

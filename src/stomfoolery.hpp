@@ -3,6 +3,7 @@
 
 #include <iterator>
 #include <ranges>
+#include <regex>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -247,6 +248,37 @@ inline C split(const S1& str, const S2& separator) {
 	                                        std::ranges::begin(separator), std::ranges::end(separator));
 }
 
+// #### split by regex ####
+// Actual function
+
+/**
+ * @brief Splits an iterator based string into multiple substrings based on a specified regex separator.
+ * @tparam T Char type of the string
+ * @tparam C Container type to store the resulting substrings
+ * @tparam I Iterator type representing the string
+ * @param begin Iterator pointing to the start of the string
+ * @param end Iterator pointing to the end of the string
+ * @param separator Regex based seperator
+ * @return A container of substrings
+ */
+template <typename T, typename C = std::vector<std::basic_string<T>>, return_type_iterator<T> I>
+C split(I begin, I end, const std::basic_regex<T>& separator);
+
+// Helpers
+
+/**
+ * @brief Splits a string into multiple substrings based on a specified regex separator.
+ * @tparam S String like type
+ * @tparam C Container type to store the resulting substrings
+ * @param str The string to split
+ * @param separator The separator to split the string by
+ * @return A container of substrings
+ */
+template <string_like S, typename C = std::vector<std::basic_string<string_like_char_t<S>>>>
+inline C split(const S& str, const std::basic_regex<string_like_char_t<S>>& separator) {
+	return split<string_like_char_t<S>, C>(std::ranges::begin(str), std::ranges::end(str), separator);
+}
+
 }  // namespace stomfoolery
 
 // You can disable the operators if you really want to!
@@ -308,8 +340,21 @@ template <stomfoolery::string_like S1, stomfoolery::string_like S2,
           typename C = std::vector<std::basic_string<stomfoolery::string_like_char_t<S1>>>>
     requires stomfoolery::same_char_type<S1, S2>
 inline C operator/(const S1& str, const S2& separator) {
-	return stomfoolery::split<stomfoolery::string_like_char_t<S1>, C>(
-	    std::ranges::begin(str), std::ranges::end(str), std::ranges::begin(separator), std::ranges::end(separator));
+	return stomfoolery::split<S1, S2, C>(str, separator);
+}
+
+// #### split by regex ####
+/**
+ * @brief Splits a string into multiple substrings based on a specified regex separator using the `/` operator.
+ * @tparam S String like type
+ * @tparam C Container type to store the resulting substrings
+ * @param str The string to split
+ * @param separator The separator to split the string by
+ * @return A container of substrings
+ */
+template <stomfoolery::string_like S, typename C = std::vector<std::basic_string<stomfoolery::string_like_char_t<S>>>>
+inline C operator/(const S& str, const std::basic_regex<stomfoolery::string_like_char_t<S>>& separator) {
+	return stomfoolery::split<S, C>(str, separator);
 }
 
 #endif  // STOMFOOLERY_DISABLE_OPERATORS
