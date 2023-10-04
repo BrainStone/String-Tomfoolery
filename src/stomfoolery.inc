@@ -1,6 +1,8 @@
 #ifndef STOMFOOLERY_STOMFOOLERY_INC
 #define STOMFOOLERY_STOMFOOLERY_INC
 
+#include <algorithm>
+
 #include "stomfoolery.hpp"
 
 namespace stomfoolery {
@@ -80,6 +82,49 @@ std::basic_string<T> join(CI container_begin, CI container_end, I glue_begin, I 
 		result.append(it->begin(), it->end());
 	}
 
+	return result;
+}
+
+template <typename T, typename C, return_type_iterator<T> I1, return_type_iterator<T> I2>
+C split(I1 str_begin, I1 str_end, I2 separator_begin, I2 separator_end) {
+	const std::size_t str_size = str_end - str_begin;
+	const std::size_t separator_size = separator_end - separator_begin;
+	C result;
+
+	if (str_size == 0) {
+		return result;
+	} else if (separator_size == 0) {
+		// The optimization of only allocating the memory once and not needing to do a pointless search is worth the
+		// special handling
+		result.reserve(str_size);
+
+		// Create a container full of single char strings
+		for (I1 it = str_begin; it != str_end; ++it) {
+			result.emplace_back(1, *it);
+		}
+
+		return result;
+	}
+	// No special handling for an empty separator, the following code handles that just fine and the performance to be
+	// gained from it is minimal
+
+	I1 temp_str_begin = str_begin, temp_str_end;
+
+	while (true) {
+		// Search substring
+		temp_str_end = std::search(temp_str_begin, str_end, separator_begin, separator_end);
+		// Copy string
+		result.emplace_back(temp_str_begin, temp_str_end);
+
+		// We'd move temp_str_begin past the end of the string next, so we can't do a check like `while (temp_str_end !=
+		// str_end)` or `while (temp_str_begin != str_end)`
+		if (temp_str_end == str_end) break;
+
+		// Move start of next search past the separator
+		temp_str_begin = temp_str_end + separator_size;
+	}
+
+	result.shrink_to_fit();
 	return result;
 }
 

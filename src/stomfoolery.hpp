@@ -68,6 +68,16 @@ template <typename S>
 using string_like_char_t = is_string_like<S>::char_type;
 
 /**
+ * Helper to check if the char types of all strings are the same.
+ * @tparam S String type
+ * @tparam Ss String types
+ */
+template <typename S, typename... Ss>
+inline constexpr bool same_char_type = (std::is_same_v<string_like_char_t<S>, string_like_char_t<Ss>> && ...);
+
+// Concepts
+
+/**
  * Concept that ensures we have a proper string type, that we know how to extract a char type from and that is known to
  * be iterable.
  * @tparam S String type
@@ -200,6 +210,43 @@ inline std::basic_string<string_like_char_t<S>> join(const C& container, const S
 	                                   std::ranges::begin(glue), std::ranges::end(glue));
 }
 
+// #### split by string ####
+// Actual function
+
+/**
+ * @brief Splits an iterator based string into multiple substrings based on a specified iterator based string separator.
+ * @tparam T Char type of the string
+ * @tparam C Container type to store the resulting substrings
+ * @tparam I1 Iterator type representing the string
+ * @tparam I2 Iterator type representing the separator
+ * @param str_begin Iterator pointing to the start of the string
+ * @param str_end Iterator pointing to the end of the string
+ * @param separator_begin Iterator pointing to the start of the separator
+ * @param separator_end Iterator pointing to the end of the separator
+ * @return A container of substrings
+ */
+template <typename T, typename C = std::vector<std::basic_string<T>>, return_type_iterator<T> I1,
+          return_type_iterator<T> I2>
+C split(I1 str_begin, I1 str_end, I2 separator_begin, I2 separator_end);
+
+// Helpers
+
+/**
+ * @brief Splits a string into multiple substrings based on a specified string separator.
+ * @tparam S1 String like type
+ * @tparam S2 String like type
+ * @tparam C Container type to store the resulting substrings
+ * @param str The string to split
+ * @param separator The separator to split the string by
+ * @return A container of substrings
+ */
+template <string_like S1, string_like S2, typename C = std::vector<std::basic_string<string_like_char_t<S1>>>>
+    requires same_char_type<S1, S2>
+inline C split(const S1& str, const S2& separator) {
+	return split<string_like_char_t<S1>, C>(std::ranges::begin(str), std::ranges::end(str),
+	                                        std::ranges::begin(separator), std::ranges::end(separator));
+}
+
 }  // namespace stomfoolery
 
 // You can disable the operators if you really want to!
@@ -245,6 +292,24 @@ inline std::vector<std::basic_string<stomfoolery::string_like_char_t<S>>> operat
 template <stomfoolery::string_like S, stomfoolery::contains_return_type_iterator<stomfoolery::string_like_char_t<S>> C>
 inline std::basic_string<stomfoolery::string_like_char_t<S>> operator*(const C& container, const S& glue) {
 	return stomfoolery::join<S, C>(container, glue);
+}
+
+// #### split by string ####
+/**
+ * @brief Splits a string into multiple substrings based on a specified string separator using the `/` operator.
+ * @tparam S1 String like type
+ * @tparam S2 String like type
+ * @tparam C Container type to store the resulting substrings
+ * @param str The string to split
+ * @param separator The separator to split the string by
+ * @return A container of substrings
+ */
+template <stomfoolery::string_like S1, stomfoolery::string_like S2,
+          typename C = std::vector<std::basic_string<stomfoolery::string_like_char_t<S1>>>>
+    requires stomfoolery::same_char_type<S1, S2>
+inline C operator*(const S1& str, const S2& separator) {
+	return split<stomfoolery::string_like_char_t<S1>, C>(std::ranges::begin(str), std::ranges::end(str),
+	                                                     std::ranges::begin(separator), std::ranges::end(separator));
 }
 
 #endif  // STOMFOOLERY_DISABLE_OPERATORS
