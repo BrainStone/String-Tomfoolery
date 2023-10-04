@@ -18,8 +18,16 @@ TEST(TestSplitByString, SimpleStringsEmptySeparator) {
 	EXPECT_EQ(stomfoolery::split(simple_str_empty_separator, empty_str), simple_strs);
 }
 
+TEST(TestSplitByString, SimpleStringsEmptySeparatorOperator) {
+	EXPECT_EQ(simple_str_empty_separator / empty_str, simple_strs);
+}
+
 TEST(TestSplitByString, SimpleStringsUnderscore) {
 	EXPECT_EQ(stomfoolery::split(simple_str_underscore, underscore), simple_strs);
+}
+
+TEST(TestSplitByString, SimpleStringsUnderscoreOperator) {
+	EXPECT_EQ(simple_str_underscore / underscore, simple_strs);
 }
 
 // Edge cases

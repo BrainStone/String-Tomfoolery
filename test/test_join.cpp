@@ -18,8 +18,16 @@ TEST(TestJoin, SimpleStringsEmptyGlue) {
 	EXPECT_EQ(stomfoolery::join(simple_strs, empty_str), simple_str_empty_separator);
 }
 
+TEST(TestJoin, SimpleStringsEmptyGlueOperator) {
+	EXPECT_EQ(simple_strs * empty_str, simple_str_empty_separator);
+}
+
 TEST(TestJoin, SimpleStringsUnderscore) {
 	EXPECT_EQ(stomfoolery::join(simple_strs, underscore), simple_str_underscore);
+}
+
+TEST(TestJoin, SimpleStringsUnderscoreOperator) {
+	EXPECT_EQ(simple_strs * underscore, simple_str_underscore);
 }
 
 // Edge cases

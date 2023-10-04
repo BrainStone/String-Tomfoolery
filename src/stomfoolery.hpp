@@ -307,9 +307,9 @@ inline std::basic_string<stomfoolery::string_like_char_t<S>> operator*(const C& 
 template <stomfoolery::string_like S1, stomfoolery::string_like S2,
           typename C = std::vector<std::basic_string<stomfoolery::string_like_char_t<S1>>>>
     requires stomfoolery::same_char_type<S1, S2>
-inline C operator*(const S1& str, const S2& separator) {
-	return split<stomfoolery::string_like_char_t<S1>, C>(std::ranges::begin(str), std::ranges::end(str),
-	                                                     std::ranges::begin(separator), std::ranges::end(separator));
+inline C operator/(const S1& str, const S2& separator) {
+	return stomfoolery::split<stomfoolery::string_like_char_t<S1>, C>(
+	    std::ranges::begin(str), std::ranges::end(str), std::ranges::begin(separator), std::ranges::end(separator));
 }
 
 #endif  // STOMFOOLERY_DISABLE_OPERATORS
