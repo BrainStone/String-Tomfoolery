@@ -185,21 +185,6 @@ std::basic_string<T> join(CI container_begin, CI container_end, I glue_begin, I 
 // Helpers
 
 /**
- * @brief Joins a range of containers into a single string using a specified iterator based delimiter.
- * @tparam T Char type of the string
- * @tparam C Container type to join
- * @tparam I Iterator type pointing to the start of the delimiter
- * @param container The container of strings to join
- * @param glue_begin Iterator pointing to the start of the delimiter
- * @param glue_end Iterator pointing to the end of the delimiter
- * @return The joined string
- */
-template <typename T, contains_return_type_iterator<T> C, return_type_iterator<T> I>
-inline std::basic_string<T> join(const C& container, I glue_begin, I glue_end) {
-	return join<T>(std::ranges::begin(container), std::ranges::end(container), glue_begin, glue_end);
-}
-
-/**
  * @brief Joins a range of containers into a single string using a specified delimiter.
  * @tparam S String like type
  * @tparam C Container type to join
@@ -209,7 +194,8 @@ inline std::basic_string<T> join(const C& container, I glue_begin, I glue_end) {
  */
 template <string_like S, contains_return_type_iterator<string_like_char_t<S>> C>
 inline std::basic_string<string_like_char_t<S>> join(const C& container, const S& glue) {
-	return join<string_like_char_t<S>>(container, std::ranges::begin(glue), std::ranges::end(glue));
+	return join<string_like_char_t<S>>(std::ranges::begin(container), std::ranges::end(container),
+	                                   std::ranges::begin(glue), std::ranges::end(glue));
 }
 
 }  // namespace stomfoolery
