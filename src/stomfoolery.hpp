@@ -2,11 +2,76 @@
 #define STOMFOOLERY_STOMFOOLERY_HPP
 
 #include <iterator>
+#include <ranges>
 #include <string>
 #include <string_view>
 #include <vector>
 
 namespace stomfoolery {
+
+/**
+ * @brief Helper struct to define what this library considers a string.
+ * @tparam T The type in question
+ *
+ * To define your own string type, specialize this struct for your type. For example, if you have a type `MyString`,
+ * you would specialize `is_string_like` as follows:
+ *
+ *     template <>
+ *     struct stomfoolery::is_string_like<MyString> : std::true_type {
+ *         using char_type = char;
+ *     };
+ *
+ * With this specialization, `MyString` is now considered a string by this library, if it also satisfies the concept
+ * `std::ranges::range`.
+ */
+template <typename T>
+struct is_string_like : std::false_type {
+	using char_type = void;
+};
+
+/**
+ * @brief Template specialization of `is_string_like` for `std::basic_string<CharT, Traits, Alloc>`.
+ * @tparam CharT Character type
+ * @tparam Traits Traits
+ * @tparam Alloc Allocator
+ */
+template <typename CharT, typename Traits, typename Alloc>
+struct is_string_like<std::basic_string<CharT, Traits, Alloc>> : std::true_type {
+	using char_type = CharT;
+};
+
+/**
+ * @brief Template specialization of `is_string_like` for `std::basic_string_view<CharT, Traits, Alloc>`.
+ * @tparam CharT Character type
+ * @tparam Traits Traits
+ */
+template <typename CharT, typename Traits>
+struct is_string_like<std::basic_string_view<CharT, Traits>> : std::true_type {
+	using char_type = CharT;
+};
+
+/**
+ * @brief Helper to access `is_string_like` more easily.
+ * @tparam S String type
+ */
+template <typename S>
+inline constexpr bool is_string_like_v = is_string_like<S>::value;
+
+/**
+ * @brief Helper to extract the char type more easily. Uses `is_string_like` internally. This is also the reason why
+ * `is_string_like` has the type `char_type`.
+ * @tparam S String type
+ */
+template <typename S>
+using string_like_char_t = is_string_like<S>::char_type;
+
+/**
+ * Concept that ensures we have a proper string type, that we know how to extract a char type from and that is known to
+ * be iterable.
+ * @tparam S String type
+ */
+template <typename S>
+concept string_like = is_string_like_v<std::decay_t<S>> && std::ranges::range<S>;
 
 /**
  * @brief The return_type_iterator concept checks if an iterator returns a specific type.
@@ -59,26 +124,14 @@ std::basic_string<T> repeat(I begin, I end, std::size_t repeats);
 
 /**
  * @brief Repeats a string a specified number of times.
- * @tparam T Char type of the string
+ * @tparam S String like type
  * @param str The string to repeat
  * @param repeats Number of times the string should be repeated
  * @return The repeated string
  */
-template <typename T>
-inline std::basic_string<T> repeat(const std::basic_string<T>& str, std::size_t repeats) {
-	return repeat<T>(str.begin(), str.end(), repeats);
-}
-
-/**
- * @brief Repeats a string a specified number of times using a string_view input.
- * @tparam T Char type of the string
- * @param str The string_view to repeat
- * @param repeats Number of times the string should be repeated
- * @return The repeated string
- */
-template <typename T>
-inline std::basic_string<T> repeat(std::basic_string_view<T> str, std::size_t repeats) {
-	return repeat<T>(str.begin(), str.end(), repeats);
+template <string_like S>
+inline std::basic_string<string_like_char_t<S>> repeat(const S& str, std::size_t repeats) {
+	return repeat<string_like_char_t<S>>(std::ranges::begin(str), std::ranges::end(str), repeats);
 }
 
 // #### split by int ####
@@ -88,7 +141,7 @@ inline std::basic_string<T> repeat(std::basic_string_view<T> str, std::size_t re
  * @brief Splits an iterator based string into multiple substrings based on a specified number of divisions.
  * @tparam T Char type of the string
  * @tparam C Container type to store the resulting substrings
- * @tparam I Iterator type pointing to the start of the string
+ * @tparam I Iterator type representing the string
  * @param begin Iterator pointing to the start of the string
  * @param end Iterator pointing to the end of the string
  * @param divisions Number of times the string should be divided
@@ -193,26 +246,14 @@ inline std::basic_string<T> join(const C& container, std::basic_string_view<T> g
 // #### repeat ####
 /**
  * @brief Repeats a string a specified number of times using the "*" operator.
- * @tparam T Char type of the string
+ * @tparam S String like type
  * @param str The string to repeat
  * @param repeats Number of times the string should be repeated
  * @return The repeated string
  */
-template <typename T>
-inline std::basic_string<T> operator*(const std::basic_string<T>& str, std::size_t repeats) {
-	return stomfoolery::repeat<T>(str, repeats);
-}
-
-/**
- * @brief Repeats a string a specified number of times using the "*" operator with a string_view input.
- * @tparam T Char type of the string
- * @param str The string_view to repeat
- * @param repeats Number of times the string should be repeated
- * @return The repeated string
- */
-template <typename T>
-inline std::basic_string<T> operator*(std::basic_string_view<T> str, std::size_t repeats) {
-	return stomfoolery::repeat<T>(str, repeats);
+template <stomfoolery::string_like S>
+inline std::basic_string<stomfoolery::string_like_char_t<S>> operator*(const S& str, std::size_t repeats) {
+	return stomfoolery::repeat<S>(str, repeats);
 }
 
 // #### split by int ####
