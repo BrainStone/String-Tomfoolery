@@ -39,6 +39,8 @@ const std::wstring_view complex_wstr_view_uneven{complex_wstr_uneven};
 
 const std::vector<std::string> empty_container{};
 const std::vector<std::string> one_element_container{{"aaaaa"s}};
+const std::string empty_string{""s};
+const std::vector<std::string> empty_strings_container{{""s}, {""s}, {""s}, {""s}, {""s}};
 
 // Normal cases
 TEST(TestSplitByInt, SimpleStringEven) {
@@ -184,4 +186,12 @@ TEST(TestSplitByInt, OneDivision) {
 
 TEST(TestSplitByInt, OneDivisionOperator) {
 	EXPECT_EQ(simple_str_even / 1, one_element_container);
+}
+
+TEST(TestSplitByInt, EmptyString) {
+	EXPECT_EQ(stomfoolery::split(empty_string, divisions), empty_strings_container);
+}
+
+TEST(TestSplitByInt, EmptyStringOperator) {
+	EXPECT_EQ(empty_string / divisions, empty_strings_container);
 }

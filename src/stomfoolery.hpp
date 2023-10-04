@@ -9,6 +9,8 @@
 
 namespace stomfoolery {
 
+// Template helper structs
+
 /**
  * @brief Helper struct to define what this library considers a string.
  * @tparam T The type in question
@@ -205,7 +207,7 @@ inline std::basic_string<string_like_char_t<S>> join(const C& container, const S
 
 // #### repeat ####
 /**
- * @brief Repeats a string a specified number of times using the "*" operator.
+ * @brief Repeats a string a specified number of times using the `*` operator.
  * @tparam S String like type
  * @param str The string to repeat
  * @param repeats Number of times the string should be repeated
@@ -218,7 +220,7 @@ inline std::basic_string<stomfoolery::string_like_char_t<S>> operator*(const S& 
 
 // #### split by int ####
 /**
- * @brief Splits a string into multiple substrings based on a specified number of divisions using the "/" operator.
+ * @brief Splits a string into multiple substrings based on a specified number of divisions using the `/` operator.
  * @tparam S String like type
  * @tparam C Container type to store the resulting substrings
  * @param str The string to split
@@ -233,7 +235,7 @@ inline std::vector<std::basic_string<stomfoolery::string_like_char_t<S>>> operat
 
 // #### join ####
 /**
- * @brief Joins a range of containers into a single string using a specified delimiter and the "*" operator.
+ * @brief Joins a range of containers into a single string using a specified delimiter and the `*` operator.
  * @tparam S String like type
  * @tparam C Container type to join
  * @param container The container of strings to join

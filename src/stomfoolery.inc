@@ -26,7 +26,6 @@ std::basic_string<T> repeat(I begin, I end, std::size_t repeats) {
 
 template <typename T, typename C, return_type_iterator<T> I>
 C split(I begin, I end, std::size_t divisions) {
-	const std::size_t size = end - begin;
 	C result;
 
 	if (divisions == 0) {
@@ -35,8 +34,10 @@ C split(I begin, I end, std::size_t divisions) {
 	// No special case for divisions == 1, as we need to copy the string anyway.
 
 	result.reserve(divisions);
+
+	const std::size_t size = end - begin;
 	std::size_t length = size / divisions + 1;  // Extend length by 1 in case of uneven division
-	std::size_t mod = size % divisions;  // Count how many iterations we need to do before decreasing length again
+	const std::size_t mod = size % divisions;  // Count how many iterations we need to do before decreasing length again
 	I temp_begin = begin, temp_end;
 
 	for (size_t i = 0; i < divisions; ++i) {
