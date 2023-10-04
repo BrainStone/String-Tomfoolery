@@ -38,3 +38,12 @@ gtest_discover_tests(${PROJECT_NAME} XML_OUTPUT_DIR ${CMAKE_BINARY_DIR}/reports)
 
 # Link test executable against gtest & gtest_main
 target_link_libraries(${PROJECT_NAME} PRIVATE gtest gtest_main stomfoolery)
+
+# Be very strict with compiling
+if (MSVC)
+    target_compile_options(stomfoolery_test PRIVATE /EHsc /W3 /WX)
+    target_link_options(stomfoolery_test PRIVATE /WX)
+else ()
+    target_compile_options(stomfoolery_test PRIVATE -Wall -Wextra -Wpedantic -Werror)
+    target_link_options(stomfoolery_test PRIVATE -Wall -Wextra -Wpedantic -Werror)
+endif ()
