@@ -41,7 +41,7 @@ You can use the `FetchContent` module to let CMake download the lib for you:
 include(FetchContent)
 FetchContent_Declare(
         stomfoolery
-        GIT_REPOSITORY https://github.com/google/googletest.git
+        GIT_REPOSITORY https://github.com/BrainStone/String-Tomfoolery.git
         GIT_TAG master
 )
 
