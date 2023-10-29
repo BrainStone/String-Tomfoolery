@@ -43,8 +43,7 @@ peda-session-*.txt
 # CMake
 #############################
 
-**/cmake-build-debug/
-**/cmake-build-release/
+**/cmake-build-*/
 **/CMakeCache.txt
 **/cmake_install.cmake
 **/install_manifest.txt
