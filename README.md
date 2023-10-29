@@ -43,7 +43,7 @@ include(FetchContent)
 FetchContent_Declare(
         stomfoolery
         GIT_REPOSITORY https://github.com/BrainStone/String-Tomfoolery.git
-        GIT_TAG master
+        GIT_TAG v1.0.0
 )
 
 FetchContent_MakeAvailable(stomfoolery)
