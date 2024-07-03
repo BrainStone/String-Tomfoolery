@@ -23,7 +23,7 @@ FetchContent_MakeAvailable(googletest)
 ################################
 # Tests
 ################################
-project(stomfoolery_test CXX)
+project(${PROJECT_NAME}_test CXX)
 
 # these instructions search the directory tree when cmake is
 # invoked and put all files that match the pattern in the variable `test_sources`
@@ -41,9 +41,9 @@ target_link_libraries(${PROJECT_NAME} PRIVATE gtest gtest_main stomfoolery)
 
 # Be very strict with compiling
 if (MSVC)
-    target_compile_options(stomfoolery_test PRIVATE /EHsc /W3 /WX)
-    target_link_options(stomfoolery_test PRIVATE /WX)
+    target_compile_options(${PROJECT_NAME} PRIVATE /EHsc /W3 /WX)
+    target_link_options(${PROJECT_NAME} PRIVATE /WX)
 else ()
-    target_compile_options(stomfoolery_test PRIVATE -Wall -Wextra -Wpedantic -Werror)
-    target_link_options(stomfoolery_test PRIVATE -Wall -Wextra -Wpedantic -Werror)
+    target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic -Werror)
+    target_link_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic -Werror)
 endif ()
